@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.yarn/install-state.gz
 
 # Database
 *.db
@@ -21,8 +22,8 @@ storybook-static
 /playwright/.cache/
 
 # next.js
-/.next
-/out
+/.next/
+/out/
 
 # cache
 .swc/
@@ -49,4 +50,7 @@ local
 
 # vercel
 .vercel
-.env
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
