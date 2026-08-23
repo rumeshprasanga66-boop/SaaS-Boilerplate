@@ -1,7 +1,9 @@
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 
+import { AssistantWidget } from '@/components/AssistantWidget';
 import { BackToTop } from '@/components/motion/BackToTop';
 import { Preloader } from '@/components/motion/Preloader';
+import { PurchaseToasts } from '@/components/PurchaseToasts';
 import { CaptionStyles } from '@/templates/CaptionStyles';
 import { ClipAnythingPrompt } from '@/templates/ClipAnythingPrompt';
 import { CreditUsage } from '@/templates/CreditUsage';
@@ -112,6 +114,8 @@ const IndexPage = (props: { params: { locale: string } }) => {
       <FAQ />
       <CTA />
       <Footer />
+      <AssistantWidget />
+      <PurchaseToasts />
       <BackToTop />
     </div>
   );
