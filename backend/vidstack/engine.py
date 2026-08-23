@@ -17,6 +17,8 @@ import random
 import time
 from typing import List, Optional, Tuple
 
+from . import render as vid_render
+
 from .data_models import (
     HookType,
     InputType,
@@ -254,6 +256,7 @@ class VidStackEngine:
                 output_format=job.output_format,
                 add_voiceover=job.voiceover,
                 add_broll=broll,
+                want_broll=bool(job.auto_broll),
                 face_tracking=job.face_tracking,
                 language=job.language,
             )
@@ -318,8 +321,9 @@ class VidStackEngine:
         output_format: OutputFormat,
         add_voiceover: bool,
         add_broll: List[str],
-        face_tracking: bool,
-        language: str,
+        want_broll: bool = True,
+        face_tracking: bool = False,
+        language: str = "en",
     ) -> str:
         """Render final video.
 
@@ -328,19 +332,32 @@ class VidStackEngine:
         - Crop: face-tracked FFmpeg filter, 9:16 / 16:9 / 4:5 (AI-YSG + OpenShorts)
         - Encode: FFmpeg via foundation.ffmpeg_utils
         """
-        if add_broll:
+        voice_path: Optional[str] = None
+        narration = f"{script.hook_text} {script.body_text} {script.cta_text}"
+        if add_voiceover:
+            vo = capabilities.generate_voiceover(narration, language=language)
+            voice_path = vo.get("audio_path")
+
+        if want_broll:
             broll = capabilities.search_broll(
                 script.visual_broll_cues, aspect="9:16" if "vertical" in output_format.value else "16:9",
             )
             add_broll.extend(item["url"] for item in broll)
 
-        if add_voiceover:
-            narration = f"{script.hook_text} {script.body_text} {script.cta_text}"
-            capabilities.generate_voiceover(narration, language=language)
+        # Real ffmpeg render (falls back to a placeholder URL when no B-roll)
+        job_id = f"job_{int(time.time() * 1000)}"
+        local = None
+        if add_broll:
+            local = vid_render.render_video(
+                broll_urls=add_broll,
+                voiceover_path=voice_path,
+                narration_text=narration,
+                output_format=output_format.value,
+                job_id=job_id,
+            )
 
-        crop = capabilities.crop_filter(1920, 1080, output_format.value)
-        print(f"🎬 render: format={output_format.value} crop={crop} "
-              f"broll={len(add_broll)} voiceover={add_voiceover}")
+        if local:
+            return f"{os.environ.get('VIDSTACK_PUBLIC_URL', 'http://127.0.0.1:12001')}/files/{os.path.basename(os.path.dirname(local))}/{os.path.basename(local)}"
 
         timestamp = int(time.time() * 1000)
         return f"https://s3.amazonaws.com/vidstack/{output_format.value}_{timestamp}.mp4"

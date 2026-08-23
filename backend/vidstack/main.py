@@ -8,6 +8,7 @@ load_dotenv()
 
 from fastapi import BackgroundTasks, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from .data_models import PRICING_TIERS, JobResponse, PublishRequest, VideoGenerationJob
@@ -95,6 +96,20 @@ async def root() -> dict:
 @app.get("/health")
 async def health() -> dict:
     return {"status": "ok"}
+
+
+@app.get("/files/{job_dir}/{filename}")
+async def serve_file(job_dir: str, filename: str) -> FileResponse:
+    """Serve a rendered video file."""
+    from pathlib import Path
+
+    # Prevent path traversal
+    if ".." in job_dir or ".." in filename:
+        raise HTTPException(status_code=400, detail="Invalid path")
+    path = Path("/tmp/vidstack/render") / job_dir / filename
+    if not path.exists() or not path.is_file():
+        raise HTTPException(status_code=404, detail="File not found")
+    return FileResponse(str(path), media_type="video/mp4", filename=filename)
 
 
 @app.post("/generate", status_code=202)
