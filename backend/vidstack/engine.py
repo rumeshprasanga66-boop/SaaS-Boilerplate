@@ -89,6 +89,12 @@ class YouTubeVideo:
             "js_runtimes": {"node": {"path": "/usr/local/bin/node"}},
             "quiet": True,
         }
+        # Use browser cookies when provided — bypasses the sandbox IP bot-check.
+        cookie_file = os.environ.get("YTDLP_COOKIES", "backend/cookies.txt")
+        if os.path.exists(cookie_file):
+            opts["cookiefile"] = cookie_file
+        elif os.path.exists("cookies.txt"):
+            opts["cookiefile"] = "cookies.txt"
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(self.url, download=True)
             base = ydl.prepare_filename(info).rsplit(".", 1)[0]
@@ -244,6 +250,8 @@ class VidStackEngine:
                 script = self.script_generator.generate(job.input_data, job.llm_provider)
             elif job.input_type == InputType.YOUTUBE_URL:
                 script, broll = self._extract_from_youtube(job.input_data)
+            elif job.input_type == InputType.VIDEO_URL:
+                script, broll = self._extract_from_video_url(job.input_data)
             elif job.input_type == InputType.VIDEO_FILE:
                 script, broll = self._extract_from_video(job.input_data)
             else:
@@ -306,6 +314,32 @@ class VidStackEngine:
         transcript = WhisperEngine().transcribe(video.audio_path)
         text = " ".join(seg.get("text", "") for seg in transcript.get("segments", []))
         script = self.script_generator.generate(text or youtube_url, LLMProvider.GEMINI)
+        return script, []
+
+    def _extract_from_video_url(self, video_url: str) -> Tuple[ShortFormScript, List[str]]:
+        """Download a direct MP4 link (no bot-check), transcribe, extract hook."""
+        import httpx
+
+        dest = f"/tmp/vidstack/vid_{int(time.time() * 1000)}.mp4"
+        os.makedirs("/tmp/vidstack", exist_ok=True)
+        try:
+            with httpx.stream("GET", video_url, timeout=120, follow_redirects=True) as r:
+                r.raise_for_status()
+                with open(dest, "wb") as f:
+                    for chunk in r.iter_bytes(chunk_size=1 << 16):
+                        f.write(chunk)
+        except Exception as e:  # noqa: BLE001
+            raise RuntimeError(f"Could not download video URL: {e}") from e
+
+        # Transcribe the speech; silent videos (stock footage) have no audio
+        # track, so fall back to a Gemini script derived from the URL/topic.
+        text = ""
+        try:
+            transcript = WhisperEngine().transcribe(dest)
+            text = " ".join(seg.get("text", "") for seg in transcript.get("segments", []))
+        except Exception as e:  # noqa: BLE001
+            print(f"⚠️ transcription skipped (no audio / ASR error): {e}")
+        script = self.script_generator.generate(text or f"A video about: {video_url}", LLMProvider.GEMINI)
         return script, []
 
     def _extract_from_video(self, video_file: str) -> Tuple[ShortFormScript, List[str]]:

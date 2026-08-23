@@ -8,6 +8,7 @@ class InputType(str, Enum):
     SCRIPT = "script"
     YOUTUBE_URL = "youtube_url"
     VIDEO_FILE = "video_file"
+    VIDEO_URL = "video_url"  # direct MP4 link — no YouTube bot-check
     TEXT = "text"
 
 

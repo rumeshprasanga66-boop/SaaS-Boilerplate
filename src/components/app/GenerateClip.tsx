@@ -31,6 +31,9 @@ export const GenerateClip = () => {
     if (/youtube\.com|youtu\.be/.test(v)) {
       return 'youtube_url';
     }
+    if (/^https?:\/\//.test(v)) {
+      return 'video_url'; // any direct video/file link — no YouTube bot-check
+    }
     return 'script';
   };
 

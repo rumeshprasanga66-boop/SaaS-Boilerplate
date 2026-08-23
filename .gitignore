@@ -56,3 +56,5 @@ backend/.venv/
 __pycache__/
 *.pyc
 backend/.env
+backend/cookies.txt
+cookies.txt
