@@ -9,6 +9,8 @@ const TIERS = [
     name: 'Starter',
     monthly: 19,
     description: 'For creators testing the waters',
+    ring: 'ring-sky-500/40',
+    priceColor: 'text-sky-400',
     features: ['30 clips / month', '720p exports', '2 platforms', 'Word-level subtitles', 'No watermark'],
   },
   {
@@ -16,18 +18,24 @@ const TIERS = [
     monthly: 49,
     recommended: true,
     description: 'For serious creators growing fast',
+    ring: 'ring-indigo-500/50',
+    priceColor: 'text-indigo-400',
     features: ['150 clips / month', '1080p exports', '4 platforms', 'AI face tracking', 'Auto B-roll', 'Scheduling & calendar'],
   },
   {
     name: 'Creator',
     monthly: 99,
     description: 'For full-time content machines',
+    ring: 'ring-violet-500/40',
+    priceColor: 'text-violet-400',
     features: ['500 clips / month', '4K exports', 'All platforms', 'AI avatars', 'Batch processing', 'Analytics dashboard'],
   },
   {
     name: 'Agency',
     monthly: 199,
     description: 'For teams managing many brands',
+    ring: 'ring-emerald-500/40',
+    priceColor: 'text-emerald-400',
     features: ['Unlimited clips', '4K exports', 'All platforms', 'API access', 'Team seats (5)', 'Priority rendering', 'Dedicated support'],
   },
 ] as const;
@@ -87,9 +95,7 @@ export const Pricing = () => {
               <Reveal key={tier.name} delay={i * 100}>
                 <div
                   id={`plan-${tier.name.toLowerCase()}`}
-                  className={`glass-card glass-card-hover relative flex h-full scroll-mt-28 flex-col rounded-2xl p-7 ${
-                    recommended ? 'border-indigo-500/60 ring-1 ring-indigo-500/50' : ''
-                  }`}
+                  className={`glass-card glass-card-hover relative flex h-full scroll-mt-28 flex-col rounded-2xl p-7 ring-1 ${tier.ring}`}
                 >
                   {recommended && (
                     <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-indigo-500 to-emerald-500 px-4 py-1 text-xs font-bold text-white">
@@ -99,7 +105,7 @@ export const Pricing = () => {
                   <h3 className="landing-strong text-lg font-bold">{tier.name}</h3>
                   <p className="landing-faint mt-1 text-xs">{tier.description}</p>
                   <div className="mt-5 flex items-baseline gap-1">
-                    <span className="landing-strong text-4xl font-extrabold">
+                    <span className={`text-4xl font-extrabold ${tier.priceColor}`}>
                       $
                       {price}
                     </span>

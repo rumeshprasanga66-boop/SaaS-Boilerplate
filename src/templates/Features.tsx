@@ -73,12 +73,22 @@ const FLAGSHIP: Record<string, { className: string; mockup: React.ReactNode }> =
   },
 };
 
-const FeatureCard = ({ feature, delay }: { feature: Feature; delay: number }) => {
+const ACCENTS = [
+  { ring: 'ring-indigo-500/40', iconBg: 'bg-indigo-500/20', iconColor: 'text-indigo-400' },
+  { ring: 'ring-violet-500/40', iconBg: 'bg-violet-500/20', iconColor: 'text-violet-400' },
+  { ring: 'ring-emerald-500/40', iconBg: 'bg-emerald-500/20', iconColor: 'text-emerald-400' },
+  { ring: 'ring-pink-500/40', iconBg: 'bg-pink-500/20', iconColor: 'text-pink-400' },
+  { ring: 'ring-amber-500/40', iconBg: 'bg-amber-500/20', iconColor: 'text-amber-400' },
+  { ring: 'ring-sky-500/40', iconBg: 'bg-sky-500/20', iconColor: 'text-sky-400' },
+];
+
+const FeatureCard = ({ feature, delay, index }: { feature: Feature; delay: number; index: number }) => {
   const flagship = FLAGSHIP[feature.slug];
+  const accent = ACCENTS[index % ACCENTS.length]!;
   return (
     <Reveal delay={delay} className={flagship?.className}>
-      <div id={`feature-${feature.slug}`} className="glass-card glass-card-hover flex h-full scroll-mt-28 flex-col rounded-2xl p-7">
-        <div className="flex size-12 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/25 to-emerald-500/25 text-indigo-300">
+      <div id={`feature-${feature.slug}`} className={`glass-card glass-card-hover flex h-full scroll-mt-28 flex-col rounded-2xl p-7 ring-1 ${accent.ring}`}>
+        <div className={`flex size-12 items-center justify-center rounded-xl ${accent.iconBg} ${accent.iconColor}`}>
           <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             {feature.icon}
           </svg>
@@ -108,7 +118,7 @@ export const Features = () => (
 
       <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {FEATURES.map((feature, i) => (
-          <FeatureCard key={feature.slug} feature={feature} delay={(i % 3) * 100} />
+          <FeatureCard key={feature.slug} feature={feature} delay={(i % 3) * 100} index={i} />
         ))}
       </div>
     </div>
