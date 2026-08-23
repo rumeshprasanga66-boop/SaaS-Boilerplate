@@ -49,7 +49,7 @@ def get(key: str, default: Any = None, section: str | None = None) -> Any:
 
 # --- LLM providers ---
 GEMINI_API_KEY = get("gemini_api_key")
-GEMINI_MODEL = get("gemini_model", "gemini-2.5-flash")
+GEMINI_MODEL = get("gemini_model", "gemini-3.6-flash")
 OPENAI_API_KEY = get("openai_api_key")
 ANTHROPIC_API_KEY = get("anthropic_api_key")
 DEEPSEEK_API_KEY = get("deepseek_api_key")

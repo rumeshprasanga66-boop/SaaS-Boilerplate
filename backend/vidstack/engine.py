@@ -122,7 +122,7 @@ class ScriptGenerator:
         from google.genai import types as genai_types
 
         client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-        model_name = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+        model_name = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
         response = client.models.generate_content(
             model=model_name,
             contents=SCRIPT_PROMPT.format(source=source),
