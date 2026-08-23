@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { GenerateClip } from '@/components/app/GenerateClip';
 import { Badge, Card, SectionTitle } from '@/components/app/ui';
 
 export const metadata: Metadata = {
@@ -24,34 +25,12 @@ const STATS = [
 export default function DashboardPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-8">
-      {/* 1. Input Bar */}
+      {/* 1. Input Bar (live — calls the backend) */}
       <Card>
-        <SectionTitle sub="Paste a YouTube link, upload raw video, write text, or pick an avatar.">
+        <SectionTitle sub="Paste a YouTube link or type a topic — the AI writes, renders & captions it.">
           Create a new clip
         </SectionTitle>
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <div className="landing-border flex flex-1 items-center gap-3 rounded-xl border bg-black/30 px-4 py-3">
-            <svg viewBox="0 0 24 24" className="size-5 shrink-0 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M10 13a5 5 0 007.5.5l3-3a5 5 0 00-7-7l-1.7 1.7" />
-              <path d="M14 11a5 5 0 00-7.5-.5l-3 3a5 5 0 007 7l1.7-1.7" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Paste a YouTube URL or drop a file…"
-              className="w-full bg-transparent text-sm text-white outline-none placeholder:text-gray-500"
-            />
-          </div>
-          <div className="flex gap-2">
-            {['Upload', 'Text', 'Avatar'].map(t => (
-              <button key={t} type="button" className="landing-border rounded-xl border px-4 py-3 text-sm font-medium text-gray-300 transition hover:bg-white/5">
-                {t}
-              </button>
-            ))}
-            <button type="button" className="rounded-xl bg-gradient-to-r from-indigo-500 to-emerald-500 px-5 py-3 text-sm font-bold text-white">
-              Generate
-            </button>
-          </div>
-        </div>
+        <GenerateClip />
       </Card>
 
       {/* 5. Quick Stats + 4. Credits */}

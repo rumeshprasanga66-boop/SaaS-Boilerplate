@@ -85,7 +85,7 @@ def search_broll(keywords: List[str], aspect: str = "9:16", per_keyword: int = 2
 SUPPORTED_TTS = ["edge-tts", "azure", "elevenlabs", "gemini", "siliconflow", "fish-audio"]
 
 
-def generate_voiceover(text: str, voice: str = "en-US-AriaNeural", rate: float = 1.0) -> dict:
+def generate_voiceover(text: str, voice: str = "en-US-AriaNeural", rate: float = 1.0, language: str = "en") -> dict:
     """TTS voiceover. Uses edge-tts (free, no key) when available."""
     try:
         import asyncio

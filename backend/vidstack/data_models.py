@@ -77,7 +77,9 @@ class VideoGenerationJob(BaseModel):
     generated_script: Optional[ShortFormScript] = None
     video_url: Optional[str] = None
     thumbnail_url: Optional[str] = None
-    status: str = "processing"  # processing, completed, failed
+    status: str = "processing"  # queued, processing, completed, failed
+    progress: int = 0  # 0-100
+    current_step: str = ""  # e.g. "script", "broll", "voiceover", "render", "subtitles", "publish"
     error_message: Optional[str] = None
     cost_cents: float = 0.0
 
@@ -85,6 +87,8 @@ class VideoGenerationJob(BaseModel):
 class JobResponse(BaseModel):
     job_id: str
     status: str
+    progress: int = 0
+    current_step: str = ""
     video_url: Optional[str] = None
     thumbnail_url: Optional[str] = None
     error_message: Optional[str] = None

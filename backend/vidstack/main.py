@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from .data_models import PRICING_TIERS, JobResponse, PublishRequest, VideoGenerationJob
 from .engine import VidStackEngine
 from .foundation import capabilities
+from . import config
 
 
 class BrollRequest(BaseModel):
@@ -98,11 +99,18 @@ async def generate_video(job: VideoGenerationJob, background_tasks: BackgroundTa
     Generate video from script, YouTube URL, or video file.
     Returns job_id for async processing.
     """
+    # Task queue bound (MoneyPrinterTurbo-style): reject when too many active jobs
+    active = sum(1 for j in jobs.values() if j.status in ("queued", "processing"))
+    if active >= config.MAX_PENDING_TASKS:
+        raise HTTPException(status_code=429, detail=f"Too many active jobs (max {config.MAX_PENDING_TASKS}). Try again shortly.")
+
     job_id = str(uuid.uuid4())
-    job.status = "processing"
+    job.status = "queued"
+    job.progress = 0
+    job.current_step = "queued"
     jobs[job_id] = job
     background_tasks.add_task(_run_job, job_id)
-    return {"job_id": job_id, "status": "processing"}
+    return {"job_id": job_id, "status": "queued"}
 
 
 @app.get("/jobs/{job_id}", response_model=JobResponse)
@@ -114,12 +122,32 @@ async def get_job_status(job_id: str) -> JobResponse:
     return JobResponse(
         job_id=job_id,
         status=job.status,
+        progress=job.progress,
+        current_step=job.current_step,
         video_url=job.video_url,
         thumbnail_url=job.thumbnail_url,
         error_message=job.error_message,
         generated_script=job.generated_script,
         cost_cents=job.cost_cents,
     )
+
+
+@app.get("/tasks")
+async def list_tasks() -> dict:
+    """List all jobs with status (MoneyPrinterTurbo /tasks pattern)."""
+    return {
+        "total": len(jobs),
+        "active": sum(1 for j in jobs.values() if j.status in ("queued", "processing")),
+        "tasks": [
+            {
+                "job_id": jid,
+                "status": j.status,
+                "progress": j.progress,
+                "current_step": j.current_step,
+            }
+            for jid, j in jobs.items()
+        ],
+    }
 
 
 @app.post("/publish/{job_id}")

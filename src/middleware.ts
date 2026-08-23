@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 
 import { AllLocales, AppConfig } from './utils/AppConfig';
@@ -10,6 +11,10 @@ const intlMiddleware = createMiddleware({
 });
 
 export default function middleware(request: NextRequest) {
+  // API routes must not be locale-rewritten — pass through unchanged.
+  if (request.nextUrl.pathname.startsWith('/api/')) {
+    return NextResponse.next();
+  }
   return intlMiddleware(request);
 }
 

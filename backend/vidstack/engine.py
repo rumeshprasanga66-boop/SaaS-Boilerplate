@@ -227,10 +227,15 @@ class VidStackEngine:
         """Main orchestration method — routes to correct pipeline."""
         start_time = time.time()
 
+        def _step(name: str, pct: int) -> None:
+            job.current_step = name
+            job.progress = pct
+
         try:
             broll: List[str] = []
 
             # Step 1: Route based on input type
+            _step("script", 10)
             if job.input_type == InputType.SCRIPT:
                 script = self.script_generator.generate(job.input_data, job.llm_provider)
             elif job.input_type == InputType.YOUTUBE_URL:
@@ -243,6 +248,7 @@ class VidStackEngine:
             job.generated_script = script
 
             # Step 2: Render video
+            _step("render", 55)
             video_url = self._render_video(
                 script=script,
                 output_format=job.output_format,
@@ -254,10 +260,12 @@ class VidStackEngine:
 
             # Step 3: Generate subtitles
             if job.add_subtitles:
+                _step("subtitles", 80)
                 self.subtitle_engine.generate_subtitles(script)
 
             # Step 4: Upload & publish
             if job.publish_to:
+                _step("publish", 90)
                 self.publishing_engine.publish(
                     video_url=video_url,
                     channels=job.publish_to,
@@ -265,6 +273,7 @@ class VidStackEngine:
                 )
 
             end_time = time.time()
+            _step("done", 100)
             job.status = "completed"
             job.video_url = video_url
             job.thumbnail_url = video_url.replace(".mp4", "_thumb.jpg")
@@ -272,6 +281,7 @@ class VidStackEngine:
 
         except Exception as e:  # noqa: BLE001
             job.status = "failed"
+            job.current_step = "error"
             job.error_message = str(e)
 
         return job
