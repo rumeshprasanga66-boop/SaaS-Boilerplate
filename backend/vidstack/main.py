@@ -109,7 +109,8 @@ async def serve_file(job_dir: str, filename: str) -> FileResponse:
     path = Path("/tmp/vidstack/render") / job_dir / filename
     if not path.exists() or not path.is_file():
         raise HTTPException(status_code=404, detail="File not found")
-    return FileResponse(str(path), media_type="video/mp4", filename=filename)
+    media = "image/jpeg" if filename.endswith((".jpg", ".jpeg")) else "video/mp4"
+    return FileResponse(str(path), media_type=media, filename=filename)
 
 
 @app.post("/generate", status_code=202)

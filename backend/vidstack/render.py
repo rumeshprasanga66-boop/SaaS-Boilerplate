@@ -162,6 +162,13 @@ def render_video(
     proc = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
     if final.exists() and final.stat().st_size > 0:
         print(f"🎬 rendered: {final} ({final.stat().st_size // 1024} KB, {duration:.1f}s)")
+        # Extract a thumbnail frame (~1.5s in) for preview images
+        thumb = job_dir / "final_thumb.jpg"
+        subprocess.run(
+            [ff, "-y", "-ss", "1.5", "-i", str(final), "-frames:v", "1",
+             "-q:v", "3", str(thumb)],
+            check=False, capture_output=True, timeout=60,
+        )
         return str(final)
 
     print(f"⚠️ final encode failed: {proc.stderr[-400:]}")

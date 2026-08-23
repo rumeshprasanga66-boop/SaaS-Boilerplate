@@ -1,20 +1,14 @@
 import type { Metadata } from 'next';
 
 import { GenerateClip } from '@/components/app/GenerateClip';
-import { Badge, Card, SectionTitle } from '@/components/app/ui';
+import { RecentProjects } from '@/components/app/RecentProjects';
+import { Card, SectionTitle } from '@/components/app/ui';
 
 export const metadata: Metadata = {
   title: 'Dashboard — VidStack',
   description: 'Create AI clips from YouTube links, raw uploads, text, or avatars. Track projects and credits.',
   robots: { index: false, follow: false },
 };
-
-const PROJECTS = [
-  { name: 'Habits podcast ep.12', status: 'Processing', progress: 62, date: 'Today', tone: 'yellow' as const },
-  { name: 'Morning routine vlog', status: 'Ready', progress: 100, date: 'Yesterday', tone: 'emerald' as const },
-  { name: 'Q3 product webinar', status: 'Ready', progress: 100, date: '2 days ago', tone: 'emerald' as const },
-  { name: 'Client testimonial', status: 'Draft', progress: 20, date: '3 days ago', tone: 'gray' as const },
-];
 
 const STATS = [
   { label: 'Active clips', value: '18', icon: 'M3 5h18v14H3z' },
@@ -61,36 +55,10 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* 2. Recent projects */}
+        {/* 2. Recent projects (live from backend) */}
         <Card className="lg:col-span-2">
-          <SectionTitle sub="Your latest projects and their status.">Recent projects</SectionTitle>
-          <div className="space-y-3">
-            {PROJECTS.map(p => (
-              <div key={p.name} className="landing-border flex items-center justify-between gap-4 rounded-xl border p-4">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-24 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-slate-800 to-slate-950">
-                    <svg viewBox="0 0 24 24" className="size-6 text-gray-600" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-                  </div>
-                  <div>
-                    <div className="font-bold text-white">{p.name}</div>
-                    <div className="text-xs text-gray-500">{p.date}</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="hidden w-32 sm:block">
-                    <div className="landing-track h-1.5 overflow-hidden rounded-full">
-                      <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-emerald-500" style={{ width: `${p.progress}%` }} />
-                    </div>
-                    <div className="mt-1 text-right text-[10px] text-gray-500">
-                      {p.progress}
-                      %
-                    </div>
-                  </div>
-                  <Badge tone={p.tone}>{p.status}</Badge>
-                </div>
-              </div>
-            ))}
-          </div>
+          <SectionTitle sub="Your latest generated clips — click to play.">Recent projects</SectionTitle>
+          <RecentProjects />
         </Card>
 
         {/* 3. ClipAnything prompt */}

@@ -85,6 +85,8 @@ class YouTubeVideo:
             "postprocessors": [
                 {"key": "FFmpegExtractAudio", "preferredcodec": "mp3"},
             ],
+            # YouTube extraction needs a JS runtime for the n-challenge; node is present.
+            "js_runtimes": {"node": {"path": "/usr/local/bin/node"}},
             "quiet": True,
         }
         with yt_dlp.YoutubeDL(opts) as ydl:
@@ -293,7 +295,14 @@ class VidStackEngine:
 
     def _extract_from_youtube(self, youtube_url: str) -> Tuple[ShortFormScript, List[str]]:
         """yt-dlp download + Whisper transcription + hook extraction."""
-        video = YouTubeVideo(youtube_url).download()
+        try:
+            video = YouTubeVideo(youtube_url).download()
+        except Exception as e:  # noqa: BLE001
+            raise RuntimeError(
+                "YouTube blocked the download from this server (HTTP 403 / bot check). "
+                "Script/topic input still works — paste a topic instead. "
+                f"(detail: {e})"
+            ) from e
         transcript = WhisperEngine().transcribe(video.audio_path)
         text = " ".join(seg.get("text", "") for seg in transcript.get("segments", []))
         script = self.script_generator.generate(text or youtube_url, LLMProvider.GEMINI)
