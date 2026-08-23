@@ -2,17 +2,17 @@
 
 import { useEffect, useState } from 'react';
 
-type Toast = { id: number; name: string; plan: string; time: string };
+type Toast = { id: number; name: string; plan: string; time: string; avatar: string };
 
 const PEOPLE = [
-  { name: 'Jorge', plan: 'Pro plan' },
-  { name: 'Sofia', plan: 'Creator plan' },
-  { name: 'Marcus', plan: 'Pro plan' },
-  { name: 'Aisha', plan: 'Agency plan' },
-  { name: 'Daniel', plan: 'Starter plan' },
-  { name: 'Emma', plan: 'Creator plan' },
-  { name: 'Liam', plan: 'Pro plan' },
-  { name: 'Maya', plan: 'Starter plan' },
+  { name: 'Jorge', plan: 'Pro plan', avatar: 'https://i.pravatar.cc/80?img=13' },
+  { name: 'Sofia', plan: 'Creator plan', avatar: 'https://i.pravatar.cc/80?img=45' },
+  { name: 'Marcus', plan: 'Pro plan', avatar: 'https://i.pravatar.cc/80?img=12' },
+  { name: 'Aisha', plan: 'Agency plan', avatar: 'https://i.pravatar.cc/80?img=26' },
+  { name: 'Daniel', plan: 'Starter plan', avatar: 'https://i.pravatar.cc/80?img=33' },
+  { name: 'Emma', plan: 'Creator plan', avatar: 'https://i.pravatar.cc/80?img=44' },
+  { name: 'Liam', plan: 'Pro plan', avatar: 'https://i.pravatar.cc/80?img=59' },
+  { name: 'Maya', plan: 'Starter plan', avatar: 'https://i.pravatar.cc/80?img=32' },
 ];
 
 const TIMES = ['just now', '1 min ago', '2 min ago', '3 min ago', '5 min ago'];
@@ -27,7 +27,7 @@ export const PurchaseToasts = () => {
     const show = () => {
       const p = PEOPLE[i % PEOPLE.length]!;
       const time = TIMES[Math.floor(Math.random() * TIMES.length)]!;
-      setToast({ id: Date.now(), name: p.name, plan: p.plan, time });
+      setToast({ id: Date.now(), name: p.name, plan: p.plan, time, avatar: p.avatar });
       i++;
       hide = setTimeout(() => setToast(null), 5000);
     };
@@ -50,9 +50,13 @@ export const PurchaseToasts = () => {
       key={toast.id}
       className="fixed bottom-5 left-5 z-50 flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0d0d0f]/95 py-3 pl-3 pr-4 shadow-2xl shadow-black/60 backdrop-blur"
     >
-      <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-emerald-500 text-sm font-bold text-white">
-        {toast.name.charAt(0)}
-      </div>
+      <img
+        src={toast.avatar}
+        alt={toast.name}
+        width={40}
+        height={40}
+        className="size-10 shrink-0 rounded-full object-cover ring-2 ring-emerald-500/40"
+      />
       <div className="text-sm">
         <div className="text-white">
           <span className="font-bold">{toast.name}</span>

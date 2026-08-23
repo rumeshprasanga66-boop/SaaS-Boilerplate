@@ -6,7 +6,7 @@ const TESTIMONIALS = [
     name: 'Marcus Reid',
     role: 'Podcast Host',
     company: 'The Reid Cast · 890K subs',
-    initials: 'MR',
+    avatar: 'https://i.pravatar.cc/88?img=12',
     color: 'from-indigo-500 to-violet-500',
     metric: { value: '48×', label: 'faster clipping' },
   },
@@ -15,7 +15,7 @@ const TESTIMONIALS = [
     name: 'Sofia Almeida',
     role: 'Fitness Creator',
     company: '2.1M followers',
-    initials: 'SA',
+    avatar: 'https://i.pravatar.cc/88?img=47',
     color: 'from-violet-500 to-emerald-500',
     metric: { value: '2×', label: 'watch time' },
   },
@@ -24,7 +24,7 @@ const TESTIMONIALS = [
     name: 'Daniel Kim',
     role: 'Head of Content',
     company: 'Streamly Media',
-    initials: 'DK',
+    avatar: 'https://i.pravatar.cc/88?img=33',
     color: 'from-emerald-500 to-teal-500',
     metric: { value: '1 wk', label: 'to positive ROI' },
   },
@@ -33,7 +33,7 @@ const TESTIMONIALS = [
     name: 'Aisha Okafor',
     role: 'Educator',
     company: '640K subscribers',
-    initials: 'AO',
+    avatar: 'https://i.pravatar.cc/88?img=26',
     color: 'from-pink-500 to-indigo-500',
     metric: { value: '+66%', label: 'retention' },
   },
@@ -80,9 +80,13 @@ export const Testimonials = () => (
                 ”
               </blockquote>
               <figcaption className="landing-border mt-6 flex items-center gap-3 border-t pt-5">
-                <div className={`flex size-11 items-center justify-center rounded-full bg-gradient-to-br text-sm font-bold text-white ${t.color}`}>
-                  {t.initials}
-                </div>
+                <img
+                  src={t.avatar}
+                  alt={t.name}
+                  width={44}
+                  height={44}
+                  className="size-11 shrink-0 rounded-full object-cover ring-2 ring-white/10"
+                />
                 <div>
                   <div className="landing-strong text-sm font-bold">{t.name}</div>
                   <div className="landing-faint text-xs">

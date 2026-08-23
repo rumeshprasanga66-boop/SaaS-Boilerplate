@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 };
 
 const MEMBERS = [
-  { name: 'Rumesh (you)', email: 'rumesh@vidstack.app', role: 'Admin', tone: 'indigo' as const },
-  { name: 'Sofia Lane', email: 'sofia@vidstack.app', role: 'Editor', tone: 'emerald' as const },
-  { name: 'Daniel Kim', email: 'daniel@vidstack.app', role: 'Viewer', tone: 'gray' as const },
+  { name: 'Rumesh (you)', email: 'rumesh@vidstack.app', role: 'Admin', tone: 'indigo' as const, avatar: 'https://i.pravatar.cc/72?img=68' },
+  { name: 'Sofia Lane', email: 'sofia@vidstack.app', role: 'Editor', tone: 'emerald' as const, avatar: 'https://i.pravatar.cc/72?img=45' },
+  { name: 'Daniel Kim', email: 'daniel@vidstack.app', role: 'Viewer', tone: 'gray' as const, avatar: 'https://i.pravatar.cc/72?img=33' },
 ];
 
 const FOLDERS = ['Client work', 'Podcast clips', 'Ads', 'Personal'];
@@ -39,9 +39,13 @@ export default function SettingsPage() {
             {MEMBERS.map(m => (
               <div key={m.email} className="landing-border flex items-center justify-between rounded-lg border p-3">
                 <div className="flex items-center gap-3">
-                  <div className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-emerald-500 text-sm font-bold">
-                    {m.name[0]}
-                  </div>
+                  <img
+                    src={m.avatar}
+                    alt={m.name}
+                    width={36}
+                    height={36}
+                    className="size-9 shrink-0 rounded-full object-cover ring-2 ring-white/10"
+                  />
                   <div>
                     <div className="text-sm font-bold text-white">{m.name}</div>
                     <div className="text-xs text-gray-500">{m.email}</div>
