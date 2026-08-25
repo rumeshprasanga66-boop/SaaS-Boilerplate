@@ -51,6 +51,7 @@ class ShortFormScript(BaseModel):
 
 
 class VideoGenerationJob(BaseModel):
+    job_id: str = ""
     # Input
     input_type: InputType
     input_data: str = Field(description="URL, text, or file reference")

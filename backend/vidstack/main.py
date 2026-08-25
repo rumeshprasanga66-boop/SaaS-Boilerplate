@@ -15,6 +15,7 @@ from .data_models import PRICING_TIERS, JobResponse, PublishRequest, VideoGenera
 from .engine import VidStackEngine
 from .foundation import capabilities
 from . import config
+from .store import jobs
 
 
 class BrollRequest(BaseModel):
@@ -72,8 +73,7 @@ app.add_middleware(
 
 engine = VidStackEngine()
 
-# In-memory job store (swap for Redis/Postgres in production)
-jobs: Dict[str, VideoGenerationJob] = {}
+# Job store is SQLite-backed (persisted across restarts) — imported from .store
 published: Dict[str, dict] = {}
 
 
@@ -125,6 +125,7 @@ async def generate_video(job: VideoGenerationJob, background_tasks: BackgroundTa
         raise HTTPException(status_code=429, detail=f"Too many active jobs (max {config.MAX_PENDING_TASKS}). Try again shortly.")
 
     job_id = str(uuid.uuid4())
+    job.job_id = job_id
     job.status = "queued"
     job.progress = 0
     job.current_step = "queued"
