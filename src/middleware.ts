@@ -18,6 +18,9 @@ export default function middleware(request: NextRequest) {
   return intlMiddleware(request);
 }
 
+// Edge runtime is required for Cloudflare Workers (Node runtime is unsupported).
+export const runtime = 'experimental-edge';
+
 export const config = {
   matcher: ['/((?!.+\\.[\\w]+$|_next|monitoring).*)', '/', '/(api|trpc)(.*)'], // Also exclude tunnelRoute used in Sentry from the matcher
 };
