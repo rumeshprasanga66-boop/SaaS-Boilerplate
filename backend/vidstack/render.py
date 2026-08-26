@@ -173,3 +173,26 @@ def render_video(
 
     print(f"⚠️ final encode failed: {proc.stderr[-400:]}")
     return None
+
+
+def render_placeholder(
+    *,
+    narration_text: str,
+    output_format: str,
+    job_id: str,
+) -> Optional[str]:
+    """Minimal valid MP4 with the narration as an on-screen card, so previews
+    never 404 when the B-roll render didn't produce a file."""
+    ff = _ffmpeg()
+    ts = int(time.time() * 1000)
+    job_dir = WORK_DIR / f"{job_id}_{ts}_placeholder"
+    job_dir.mkdir(parents=True, exist_ok=True)
+    w, h = _dim(output_format)
+    final = job_dir / "final.mp4"
+    duration = max(3, min(len(narration_text.split()) * 0.5, 30))
+    subprocess.run(
+        [ff, "-y", "-f", "lavfi", "-i", f"color=c=0x1e1b4b:s={w}x{h}:d={duration}",
+         "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "28", str(final)],
+        capture_output=True, timeout=60,
+    )
+    return str(final) if final.exists() and final.stat().st_size > 0 else None

@@ -450,5 +450,17 @@ class VidStackEngine:
         if local:
             return f"{os.environ.get('VIDSTACK_PUBLIC_URL', 'http://127.0.0.1:12001')}/files/{os.path.basename(os.path.dirname(local))}/{os.path.basename(local)}"
 
-        timestamp = int(time.time() * 1000)
-        return f"https://s3.amazonaws.com/vidstack/{output_format.value}_{timestamp}.mp4"
+        # Render failed (e.g. no B-roll): produce a minimal valid MP4 so the
+        # preview/editor always have a playable local file instead of a dead URL.
+        try:
+            placeholder = vid_render.render_placeholder(
+                narration_text=narration,
+                output_format=output_format.value,
+                job_id=job_id,
+            )
+            if placeholder:
+                return f"{os.environ.get('VIDSTACK_PUBLIC_URL', 'http://127.0.0.1:12001')}/files/{os.path.basename(os.path.dirname(placeholder))}/{os.path.basename(placeholder)}"
+        except Exception as e:  # noqa: BLE001
+            print(f"⚠️ placeholder render failed: {e}")
+
+        return None
