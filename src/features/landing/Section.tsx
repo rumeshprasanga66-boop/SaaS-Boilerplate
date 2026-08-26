@@ -2,12 +2,13 @@ import { cn } from '@/utils/Helpers';
 
 export const Section = (props: {
   children: React.ReactNode;
+  id?: string;
   title?: string;
   subtitle?: string;
   description?: string;
   className?: string;
 }) => (
-  <div className={cn('px-3 py-16', props.className)}>
+  <div id={props.id} className={cn('px-3 py-16', props.className)}>
     {(props.title || props.subtitle || props.description) && (
       <div className="mx-auto mb-12 max-w-screen-md text-center">
         {props.subtitle && (

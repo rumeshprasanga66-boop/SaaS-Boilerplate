@@ -71,3 +71,272 @@
     @apply border-border;
   }
 }
+
+@layer utilities {
+  /* --- Landing theme tokens (scoped to #landing-root) --- */
+  .theme-dark {
+    --landing-bg: 10 10 10;
+    --landing-surface: 13 13 18;
+    --landing-strong: 255 255 255;
+    --landing-muted: 156 163 175;
+    --landing-faint: 107 114 128;
+    --landing-border: 255 255 255 / 0.1;
+    --glass-bg: 31 41 55 / 0.5;
+    --glass-border: 255 255 255 / 0.08;
+  }
+  .theme-light {
+    --landing-bg: 248 250 252;
+    --landing-surface: 255 255 255;
+    --landing-strong: 15 23 42;
+    --landing-muted: 71 85 105;
+    --landing-faint: 100 116 139;
+    --landing-border: 15 23 42 / 0.08;
+    --glass-bg: 255 255 255 / 0.72;
+    --glass-border: 15 23 42 / 0.08;
+  }
+  .landing-page {
+    background-color: rgb(var(--landing-bg));
+    color: rgb(var(--landing-strong));
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease;
+  }
+  .landing-surface {
+    background-color: rgb(var(--landing-surface));
+    transition: background-color 0.4s ease;
+  }
+  .landing-strong {
+    color: rgb(var(--landing-strong));
+  }
+  .landing-muted {
+    color: rgb(var(--landing-muted));
+  }
+  .landing-faint {
+    color: rgb(var(--landing-faint));
+  }
+  .landing-border {
+    border-color: rgb(var(--landing-border));
+  }
+  .landing-hover-bg:hover {
+    background-color: rgb(var(--landing-strong) / 0.05);
+  }
+  .landing-track {
+    background-color: rgb(var(--landing-strong) / 0.1);
+  }
+  .navbar-solid {
+    background-color: rgb(var(--landing-bg) / 0.85);
+    border-color: rgb(var(--landing-border));
+    backdrop-filter: blur(16px);
+  }
+  .cta-bg {
+    background: linear-gradient(135deg, rgb(99 102 241 / 0.32), rgb(var(--landing-bg)) 55%, rgb(16 185 129 / 0.22));
+    transition: background 0.4s ease;
+  }
+
+  /* OpenShorts-style blueprint grid */
+  .bg-blueprint {
+    background-image: linear-gradient(to right, hsl(262 83% 58% / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(262 83% 58% / 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Dark blueprint grid for opus.pro-style hero */
+  .bg-blueprint-dark {
+    background-image: linear-gradient(to right, hsl(262 83% 70% / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(262 83% 70% / 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* Powtoon-style infinite marquee */
+  .marquee {
+    animation: marquee-scroll 36s linear infinite;
+  }
+  .marquee:hover {
+    animation-play-state: paused;
+  }
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Social-proof ticker */
+  .ticker {
+    animation: marquee-scroll 20s linear infinite;
+  }
+
+  /* --- VidStack dark SaaS landing --- */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .glass-card {
+    background: rgb(var(--glass-bg));
+    backdrop-filter: blur(12px);
+    border: 1px solid rgb(var(--glass-border));
+    transition:
+      background-color 0.4s ease,
+      border-color 0.4s ease;
+  }
+  /* Fully opaque panel for nav mega menus — readable over the hero video */
+  .glass-panel {
+    background: rgb(var(--landing-surface));
+    border: 1px solid rgb(var(--landing-border));
+    transition:
+      background-color 0.4s ease,
+      border-color 0.4s ease;
+  }
+  .glass-card-hover {
+    transition:
+      transform 0.35s ease,
+      box-shadow 0.35s ease,
+      border-color 0.35s ease;
+  }
+  .glass-card-hover:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: rgb(99 102 241 / 0.45);
+    box-shadow:
+      0 0 40px rgb(99 102 241 / 0.25),
+      0 20px 40px rgb(0 0 0 / 0.4);
+  }
+
+  /* Gradient-shift CTA button */
+  .btn-gradient {
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+    transition:
+      background-position 0.5s ease,
+      transform 0.25s ease,
+      box-shadow 0.35s ease;
+  }
+  .btn-gradient:hover {
+    background-position: 100% 50%;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgb(99 102 241 / 0.45);
+  }
+
+  /* Hero video slow zoom-in */
+  .hero-video-zoom {
+    animation: hero-zoom 24s ease-in-out infinite alternate;
+  }
+  @keyframes hero-zoom {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.12);
+    }
+  }
+
+  /* Scroll indicator chevron */
+  .chevron-bounce {
+    animation: chevron-bounce 1.8s ease-in-out infinite;
+  }
+  @keyframes chevron-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.9;
+    }
+    50% {
+      transform: translateY(10px);
+      opacity: 0.4;
+    }
+  }
+
+  /* Pulse ring on demo play button */
+  .pulse-ring {
+    animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+  }
+
+  /* Preloader logo bars + progress track */
+  .preloader-bar {
+    animation: preloader-bar 0.9s ease-in-out infinite alternate;
+  }
+  @keyframes preloader-bar {
+    from {
+      opacity: 0.25;
+      transform: translateY(2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .preloader-track {
+    animation: preloader-track 0.9s ease-in-out forwards;
+  }
+  @keyframes preloader-track {
+    from {
+      width: 5%;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  /* Subtle parallax float for decorative elements */
+  .parallax-slow {
+    animation: parallax-slow 14s ease-in-out infinite;
+  }
+  @keyframes parallax-slow {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-24px);
+    }
+  }
+
+  .animation-delay-6000 {
+    animation-delay: 6s;
+  }
+
+  .animation-delay-12000 {
+    animation-delay: 12s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-blob,
+    .animate-float-clip,
+    .animate-glow-pulse {
+      animation: none;
+    }
+  }
+}
+
+/* --- Opus.pro-style creator marquee --- */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee-scroll 40s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+.landing-fade-left {
+  background: linear-gradient(to right, rgb(var(--landing-bg)), transparent);
+}
+.landing-fade-right {
+  background: linear-gradient(to left, rgb(var(--landing-bg)), transparent);
+}

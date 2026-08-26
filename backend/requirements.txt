@@ -1,0 +1,14 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.9
+
+# Production integrations (uncomment when wiring up real pipelines):
+# google-genai          # Gemini LLM structured output
+# openai                # GPT-4o
+# anthropic             # Claude
+# yt-dlp                # YouTube download
+# faster-whisper        # Speech-to-text
+# ultralytics           # YOLO face tracking
+# opencv-python-headless
+# moviepy               # Video rendering
+# pydub                 # Audio

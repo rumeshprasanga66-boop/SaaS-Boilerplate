@@ -8,8 +8,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${getBaseUrl()}/`,
       lastModified: new Date(),
       changeFrequency: 'daily',
-      priority: 0.7,
+      priority: 1,
     },
-    // Add more URLs here
+    // App pages are noindex — excluded from sitemap intentionally.
   ];
 }
