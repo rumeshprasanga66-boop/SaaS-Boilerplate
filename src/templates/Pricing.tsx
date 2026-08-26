@@ -7,20 +7,20 @@ import { Reveal } from '@/components/motion/Reveal';
 const TIERS = [
   {
     name: 'Starter',
-    monthly: 19,
-    description: 'For creators testing the waters',
+    monthly: 9,
+    description: 'For individual creators',
     ring: 'ring-sky-500/40',
     priceColor: 'text-sky-400',
-    features: ['30 clips / month', '720p exports', '2 platforms', 'Word-level subtitles', 'No watermark'],
+    features: ['150 credits / month', 'AI clipping with Virality Score', 'AI animated captions in 20+ languages', 'Auto-post to Shorts, TikTok & Reels, or download', 'Powerful editor', '1 brand template', 'Filler & silence removal', 'No watermark'],
   },
   {
     name: 'Pro',
     monthly: 49,
     recommended: true,
-    description: 'For serious creators growing fast',
+    description: 'For professional creators, marketers & teams',
     ring: 'ring-indigo-500/50',
     priceColor: 'text-indigo-400',
-    features: ['150 clips / month', '1080p exports', '4 platforms', 'AI face tracking', 'Auto B-roll', 'Scheduling & calendar'],
+    features: ['900 credits / month', 'Team workspace with 4 seats', '4 brand templates', '12 social account connections', 'Everything in Starter, plus:', 'AI B-roll (image, video & stock)', 'Input from 10+ sources', 'Export to Premiere Pro & DaVinci Resolve', 'Multiple aspect ratios (9:16, 1:1, 16:9)', 'Social media scheduler', 'Chat support', 'Custom fonts', 'Speech enhancement', 'Limited API access', 'Video dubbing'],
   },
   {
     name: 'Creator',
@@ -28,15 +28,15 @@ const TIERS = [
     description: 'For full-time content machines',
     ring: 'ring-violet-500/40',
     priceColor: 'text-violet-400',
-    features: ['500 clips / month', '4K exports', 'All platforms', 'AI avatars', 'Batch processing', 'Analytics dashboard'],
+    features: ['2,500 credits / month', 'Everything in Pro, plus:', '10 brand templates', 'Unlimited social connections', 'Batch processing', 'Analytics dashboard', 'Full API access', '4K exports'],
   },
   {
     name: 'Agency',
     monthly: 199,
-    description: 'For teams managing many brands',
+    description: 'For organizations needing tailored solutions & API',
     ring: 'ring-emerald-500/40',
     priceColor: 'text-emerald-400',
-    features: ['Unlimited clips', '4K exports', 'All platforms', 'API access', 'Team seats (5)', 'Priority rendering', 'Dedicated support'],
+    features: ['Everything in Pro, plus:', 'Priority project processing', 'Custom credits, seats & connections', 'Tailored assets: templates, fonts & vocabulary', 'Dedicated storage', 'API & custom integrations', 'Master Service Agreement (MSA)', 'Priority support via dedicated Slack channel', 'Enterprise-level security'],
   },
 ] as const;
 

@@ -16,7 +16,7 @@ from typing import List, Optional
 
 import httpx
 
-WORK_DIR = Path("/tmp/vidstack/render")
+WORK_DIR = Path("/workspace/project/backend/data/render")
 WORK_DIR.mkdir(parents=True, exist_ok=True)
 
 

@@ -28,7 +28,7 @@ export const PLAN_ID = {
 export const PricingPlanList: Record<string, PricingPlan> = {
   [PLAN_ID.STARTER]: {
     id: PLAN_ID.STARTER,
-    price: 19,
+    price: 9,
     interval: BILLING_INTERVAL.MONTH,
     testPriceId: '',
     devPriceId: '',

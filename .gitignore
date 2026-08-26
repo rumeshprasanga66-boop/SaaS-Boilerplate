@@ -58,3 +58,4 @@ __pycache__/
 backend/.env
 backend/cookies.txt
 cookies.txt
+backend/data/

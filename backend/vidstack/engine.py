@@ -12,6 +12,7 @@ Heavy ML deps (torch, mediapipe, ultralytics, faster-whisper) are imported
 lazily so the API server runs lean until a real job needs them.
 """
 
+import json
 import os
 import random
 import time
@@ -76,7 +77,7 @@ class YouTubeVideo:
     def download(self) -> "YouTubeVideo":
         import yt_dlp  # lazy: keeps server boot fast
 
-        out_dir = "/tmp/vidstack"
+        out_dir = "/workspace/project/backend/data"
         os.makedirs(out_dir, exist_ok=True)
         out_tmpl = os.path.join(out_dir, f"yt_{int(time.time())}.%(ext)s")
         opts = {
@@ -120,12 +121,53 @@ class ScriptGenerator:
     """
 
     def generate(self, source: str, llm_provider: LLMProvider) -> ShortFormScript:
+        if os.getenv("GROQ_API_KEY"):
+            try:
+                return self._openai_compatible_generate(
+                    source,
+                    api_key=os.environ["GROQ_API_KEY"],
+                    base_url="https://api.groq.com/openai/v1",
+                    model=os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile"),
+                )
+            except Exception as e:  # noqa: BLE001
+                print(f"⚠️ Groq generation failed, trying next provider: {e}")
+        if os.getenv("OPENAI_API_KEY"):
+            try:
+                return self._openai_compatible_generate(
+                    source,
+                    api_key=os.environ["OPENAI_API_KEY"],
+                    base_url=None,
+                    model=os.environ.get("OPENAI_MODEL", "gpt-4o-mini"),
+                )
+            except Exception as e:  # noqa: BLE001
+                print(f"⚠️ OpenAI generation failed, trying next provider: {e}")
         if os.getenv("GEMINI_API_KEY"):
             try:
                 return self._gemini_generate(source)
             except Exception as e:  # noqa: BLE001
                 print(f"⚠️ Gemini generation failed, using fallback: {e}")
         return self._fallback_generate(source)
+
+    def _openai_compatible_generate(
+        self, source: str, api_key: str, base_url: Optional[str], model: str,
+    ) -> ShortFormScript:
+        from openai import OpenAI
+
+        client = OpenAI(api_key=api_key, base_url=base_url)
+        schema = {
+            "name": "short_form_script",
+            "schema": SCRIPT_SCHEMA,
+        }
+        response = client.chat.completions.create(
+            model=model,
+            temperature=0.3,
+            response_format={"type": "json_schema", "json_schema": schema},
+            messages=[
+                {"role": "user", "content": SCRIPT_PROMPT.format(source=source)},
+            ],
+        )
+        parsed = json.loads(response.choices[0].message.content or "{}")
+        return ShortFormScript(**parsed)
 
     def _gemini_generate(self, source: str) -> ShortFormScript:
         from google import genai
@@ -320,8 +362,8 @@ class VidStackEngine:
         """Download a direct MP4 link (no bot-check), transcribe, extract hook."""
         import httpx
 
-        dest = f"/tmp/vidstack/vid_{int(time.time() * 1000)}.mp4"
-        os.makedirs("/tmp/vidstack", exist_ok=True)
+        dest = f"/workspace/project/backend/data/vid_{int(time.time() * 1000)}.mp4"
+        os.makedirs("/workspace/project/backend/data", exist_ok=True)
         try:
             with httpx.stream("GET", video_url, timeout=120, follow_redirects=True) as r:
                 r.raise_for_status()
@@ -346,8 +388,14 @@ class VidStackEngine:
         """Scene detection + face tracking + B-roll extraction."""
         self.face_tracker.track_faces(video_file)
         broll = self._find_broll_for_video(video_file)
+        text = ""
+        try:
+            transcript = WhisperEngine().transcribe(video_file)
+            text = " ".join(seg.get("text", "") for seg in transcript.get("segments", []))
+        except Exception as e:  # noqa: BLE001
+            print(f"⚠️ transcription skipped (no audio / ASR error): {e}")
         script = self.script_generator.generate(
-            "Extracted from uploaded video.", LLMProvider.GEMINI,
+            text or "Extracted from uploaded video.", LLMProvider.GEMINI,
         )
         return script, broll
 

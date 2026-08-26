@@ -14,7 +14,7 @@ from typing import Dict, Iterator, List, Optional
 
 from .data_models import VideoGenerationJob
 
-_DB_PATH = os.environ.get("VIDSTACK_DB", "/tmp/vidstack/jobs.db")
+_DB_PATH = os.environ.get("VIDSTACK_DB", "/workspace/project/backend/data/jobs.db")
 os.makedirs(os.path.dirname(_DB_PATH), exist_ok=True)
 
 _lock = threading.Lock()

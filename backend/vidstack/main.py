@@ -1,6 +1,7 @@
 import asyncio
 import uuid
-from typing import Dict, List
+from datetime import datetime
+from typing import Dict, List, Optional
 
 from dotenv import load_dotenv
 
@@ -14,7 +15,7 @@ from pydantic import BaseModel
 from .data_models import PRICING_TIERS, JobResponse, PublishRequest, VideoGenerationJob
 from .engine import VidStackEngine
 from .foundation import capabilities
-from . import config
+from . import config, database as db
 from .store import jobs
 
 
@@ -77,11 +78,19 @@ engine = VidStackEngine()
 published: Dict[str, dict] = {}
 
 
-async def _run_job(job_id: str) -> None:
+async def _run_job(job_id: str, project_id: str) -> None:
     job = jobs[job_id]
     # Simulate pipeline latency, then run the engine
     await asyncio.sleep(1)
-    jobs[job_id] = engine.generate_video(job)
+    job = engine.generate_video(job)
+    jobs[job_id] = job
+    db.sync_project(project_id, job)
+    if job.status == "completed":
+        db.create_clip(project_id, job)
+        db.spend_credits(db.CREDIT_COSTS["render"], "render", "project", project_id)
+    else:
+        db.record_event("project_failed", project_id=project_id,
+                        metadata={"error": job.error_message})
 
 
 @app.get("/")
@@ -106,7 +115,7 @@ async def serve_file(job_dir: str, filename: str) -> FileResponse:
     # Prevent path traversal
     if ".." in job_dir or ".." in filename:
         raise HTTPException(status_code=400, detail="Invalid path")
-    path = Path("/tmp/vidstack/render") / job_dir / filename
+    path = Path("/workspace/project/backend/data/render") / job_dir / filename
     if not path.exists() or not path.is_file():
         raise HTTPException(status_code=404, detail="File not found")
     media = "image/jpeg" if filename.endswith((".jpg", ".jpeg")) else "video/mp4"
@@ -130,8 +139,9 @@ async def generate_video(job: VideoGenerationJob, background_tasks: BackgroundTa
     job.progress = 0
     job.current_step = "queued"
     jobs[job_id] = job
-    background_tasks.add_task(_run_job, job_id)
-    return {"job_id": job_id, "status": "queued"}
+    project_id = db.create_project(job)
+    background_tasks.add_task(_run_job, job_id, project_id)
+    return {"job_id": job_id, "project_id": project_id, "status": "queued"}
 
 
 @app.get("/jobs/{job_id}", response_model=JobResponse)
@@ -186,6 +196,29 @@ async def publish_video(job_id: str, request: PublishRequest) -> dict:
         schedule_time=request.schedule_time,
     )
     published[job_id] = result
+    # Record in the rich workflow DB when this job has a project
+    project = db.db().execute(
+        "SELECT id FROM projects WHERE job_id=?", (job_id,)
+    ).fetchone()
+    if project:
+        clips = db.db().execute(
+            "SELECT id FROM clips WHERE project_id=?", (project["id"],)
+        ).fetchall()
+        when = None
+        if request.schedule_time:
+            try:
+                when = datetime.fromisoformat(
+                    request.schedule_time.replace("Z", "+00:00")
+                ).timestamp()
+            except ValueError:
+                when = None
+        for clip in clips:
+            db.schedule_publish(
+                clip["id"],
+                [c.value for c in request.channels],
+                when,
+            )
+        db.spend_credits(db.CREDIT_COSTS["publish"], "publish", "project", project["id"])
     return {"job_id": job_id, "published_to": [c.value for c in request.channels], "details": result}
 
 
@@ -232,3 +265,77 @@ async def highlights(request: HighlightRequest) -> dict:
 async def avatar(request: AvatarRequest) -> dict:
     """Generate an AI avatar presenter video."""
     return capabilities.generate_avatar_video(request.script_text, avatar=request.avatar, language=request.language)
+
+
+# ---------------------------------------------------------------------------
+# Rich workflow API — workspaces / projects / clips / credits / analytics
+# ---------------------------------------------------------------------------
+
+
+@app.get("/api/workspace")
+async def workspace_overview() -> dict:
+    """Current workspace with members, connected social accounts, brand kits."""
+    return db.workspace_overview()
+
+
+@app.get("/api/projects")
+async def list_projects(limit: int = 50) -> dict:
+    """All projects for the workspace, newest first, with clip counts."""
+    projects = db.list_projects(limit)
+    return {"total": len(projects), "projects": projects}
+
+
+@app.get("/api/projects/{project_id}")
+async def get_project(project_id: str) -> dict:
+    """One project with all its clips and their virality breakdowns."""
+    project = db.get_project(project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return project
+
+
+@app.get("/api/clips/{clip_id}")
+async def get_clip(clip_id: str) -> dict:
+    """One clip: transcript segments, virality score breakdown, publish jobs."""
+    clip = db.get_clip(clip_id)
+    if not clip:
+        raise HTTPException(status_code=404, detail="Clip not found")
+    return clip
+
+
+class ClipPublishRequest(BaseModel):
+    platforms: List[str]
+    schedule_time: Optional[str] = None
+
+
+@app.post("/api/clips/{clip_id}/publish")
+async def publish_clip(clip_id: str, request: ClipPublishRequest) -> dict:
+    """Schedule/queue a clip to connected social accounts (records publish_jobs)."""
+    clip = db.get_clip(clip_id)
+    if not clip:
+        raise HTTPException(status_code=404, detail="Clip not found")
+    when = None
+    if request.schedule_time:
+        try:
+            when = datetime.fromisoformat(
+                request.schedule_time.replace("Z", "+00:00")
+            ).timestamp()
+        except ValueError:
+            raise HTTPException(status_code=400, detail="schedule_time must be ISO 8601")
+    ids = db.schedule_publish(clip_id, request.platforms, when)
+    if not ids:
+        raise HTTPException(status_code=400, detail="No connected social accounts for those platforms")
+    db.spend_credits(db.CREDIT_COSTS["publish"], "publish", "clip", clip_id)
+    return {"clip_id": clip_id, "publish_job_ids": ids, "status": "scheduled" if when else "queued"}
+
+
+@app.get("/api/credits")
+async def credits() -> dict:
+    """Credit balance plus the ledger history."""
+    return {"balance": db.credit_balance(), "costs": db.CREDIT_COSTS, "history": db.credit_history()}
+
+
+@app.get("/api/analytics/summary")
+async def analytics_summary() -> dict:
+    """Workspace rollup: credits, project counts, events, top clips by virality."""
+    return db.analytics_summary()

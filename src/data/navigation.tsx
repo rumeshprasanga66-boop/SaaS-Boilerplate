@@ -96,7 +96,7 @@ export const NAV_MENUS: NavMenu[] = [
     items: [
       {
         href: '#plan-starter',
-        title: 'Starter — $19/mo',
+        title: 'Starter — $9/mo',
         description: '30 clips, 720p exports, 2 platforms. For creators testing the waters.',
         icon: <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />,
       },

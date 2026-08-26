@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 type Msg = { from: 'user' | 'bot'; text: string };
 
 const REPLIES: Array<[RegExp, string]> = [
-  [/price|cost|plan|pay/i, 'Plans start at $19/mo (Starter), $49 Pro, $99 Creator, $199 Agency. The free plan includes 30 clips/month — no card needed.'],
+  [/price|cost|plan|pay/i, 'Plans start at $9/mo (Starter), $49 Pro, $99 Creator, $199 Agency. The free plan includes 60 credits/month — no card needed.'],
   [/how|work|clip|short/i, 'Paste a YouTube link or type a topic. VidStack writes the script, finds B-roll, adds voiceover + captions, and renders a 9:16 short in minutes.'],
   [/platform|tiktok|youtube|instagram|publish/i, 'One click publishes to TikTok, YouTube Shorts, Instagram Reels, and Facebook — or schedule them in the calendar.'],
   [/free|trial/i, 'Yes — the free plan gives you 30 clips a month, no credit card required.'],

@@ -6,8 +6,8 @@ import { useState } from 'react';
 
 const NAV = [
   { href: '/dashboard', label: 'Dashboard', icon: 'M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z' },
-  { href: '/project/1', label: 'Clips Feed', icon: 'M4 6h16M4 12h16M4 18h7' },
-  { href: '/edit/1', label: 'Video Editor', icon: 'M3 5h18v14H3zM8 5v14m8-14v14M3 12h18' },
+  { href: '/clips', label: 'Clips Feed', icon: 'M4 6h16M4 12h16M4 18h7' },
+  { href: '/edit', label: 'Video Editor', icon: 'M3 5h18v14H3zM8 5v14m8-14v14M3 12h18' },
   { href: '/brand-templates', label: 'Brand Kits', icon: 'M12 2l2.6 5.6 6 .7-4.5 4.1 1.2 5.9-5.3-3-5.3 3 1.2-5.9L3.4 8.3l6-.7L12 2z' },
   { href: '/scheduler', label: 'Scheduler', icon: 'M8 2v4m8-4v4M3 9h18M5 5h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z' },
   { href: '/settings', label: 'Team & Settings', icon: 'M12 12a3 3 0 100-6 3 3 0 000 6zm7 3a7 7 0 10-14 0h14z' },
