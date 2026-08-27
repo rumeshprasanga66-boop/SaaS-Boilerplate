@@ -1,3 +1,25 @@
+# [1.8.0](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/compare/v1.7.7...v1.8.0) (2026-08-27)
+
+
+### Bug Fixes
+
+* load .env, update Gemini model to gemini-3.6-flash ([b6b778d](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/b6b778dc5968c81515be71906557d4a22d7100f0))
+* make unused Clerk/Stripe env vars optional, run middleware on edge runtime ([ead7492](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/ead74928b8eeb3c49050b93e815e7eab74a3c736))
+
+
+### Features
+
+* add AI assistant chat + social-proof purchase toasts ([8e46454](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/8e464543dbf29045edbabae10eac1263a8646d6f))
+* build VidStack app pages, auth, and SEO ([f4b8e6b](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/f4b8e6bb91a9f0f6f5d207869f59ea7b3e618196))
+* eye-catching per-step accent colors on How-it-works boxes ([ba9a2d6](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/ba9a2d6d96faaef778daf57fa4b8c1b3371cf91d))
+* live projects feed, in-app player, thumbnails, publish wiring, youtube graceful-fail ([a3cbf8d](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/a3cbf8df2c6af2c8751b4f046834feb9d183d48f))
+* per-card accent colors on Features grid and Pricing plans ([5de5009](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/5de5009f18a2cc3f1c17a22311d7bebf39cbc8bc))
+* real ffmpeg render — download Pexels B-roll, mix TTS voiceover, burn captions, encode MP4 ([597d10a](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/597d10a914d705f9d5bdfff1f1ceb76e3a23891b))
+* replace letter avatars with real photos (marquee, testimonials, toasts, settings) ([86233e4](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/86233e4f39b3e5da88a29ea645ee046a732474dd))
+* sqlite job store ([c37ba94](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/c37ba94dc5c64fcfe775f95026b9356875b402de))
+* video-url input, youtube cookie support, fix foundation imports ([dce45cc](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/dce45cc96f38fc30b8c8de2950031040ce2798e1))
+* wire dashboard to backend pipeline + MPT config/queue ([6c35446](https://github.com/rumeshprasanga66-boop/SaaS-Boilerplate/commit/6c35446304ee4544512f284c816aea115d7c9f1d))
+
 ## [1.7.7](https://github.com/ixartz/SaaS-Boilerplate/compare/v1.7.6...v1.7.7) (2025-12-12)
 
 
