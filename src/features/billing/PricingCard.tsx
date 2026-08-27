@@ -1,10 +1,10 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
-import type { BillingInterval, PlanId } from '@/types/Subscription';
+import type { BillingInterval } from '@/types/Subscription';
 
-const PricingCard = (props: {
-  planId: PlanId;
+export const PricingCard = (props: {
+  planId: string;
   price: number;
   interval: BillingInterval;
   button: React.ReactNode;
@@ -19,10 +19,12 @@ const PricingCard = (props: {
       </div>
 
       <div className="mt-3 flex items-center justify-center">
-        <div className="text-5xl font-bold">${props.price}</div>
+        <div className="text-5xl font-bold">
+          {`$${props.price}`}
+        </div>
 
         <div className="ml-1 text-muted-foreground">
-          / {t(`plan_interval_${props.interval}`)}
+          {`/ ${t(`plan_interval_${props.interval}`)}`}
         </div>
       </div>
 
@@ -36,5 +38,3 @@ const PricingCard = (props: {
     </div>
   );
 };
-
-export { PricingCard };

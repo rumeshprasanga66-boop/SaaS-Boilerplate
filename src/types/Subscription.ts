@@ -17,10 +17,6 @@ export const SUBSCRIPTION_STATUS = {
 } as const;
 
 // PricingPlan is currently only used for Pricing section of the landing page.
-// If you need a real Stripe subscription payment with checkout page, customer portal, webhook, etc.
-// You can check out the Next.js Boilerplate Pro: https://nextjs-boilerplate.com/pro-saas-starter-kit
-// On top of that, you'll get access to real example of SaaS application with Next.js, TypeScript, Tailwind CSS, and more.
-// You can find a live demo at: https://pro-demo.nextjs-boilerplate.com
 export type PricingPlan = {
   id: PlanId;
   price: number;
@@ -45,12 +41,11 @@ export type IStripeSubscription = {
 
 export type PlanDetails =
   | {
-      isPaid: true;
-      plan: PricingPlan;
-      stripeDetails: IStripeSubscription;
-    }
-  | {
-      isPaid: false;
-      plan: PricingPlan;
-      stripeDetails?: undefined;
-    };
+    isPaid: true;
+    plan: PricingPlan;
+    stripeDetails: IStripeSubscription;
+  } | {
+    isPaid: false;
+    plan: PricingPlan;
+    stripeDetails?: undefined;
+  };

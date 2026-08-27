@@ -1,164 +1,81 @@
 {
   "Index": {
-    "meta_title": "SaaS Template - The perfect SaaS template to build and scale your business with ease.",
-    "meta_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS."
+    "meta_title": "VidStack — From Script to Short, to YouTube to Shorts, All in One Place.",
+    "meta_description": "VidStack is the all-in-one AI video automation platform. Turn scripts into shorts, long videos into clips, and auto-publish to TikTok, YouTube, and Instagram."
   },
   "Navbar": {
-    "sign_in": "Sign In",
-    "sign_up": "Sign Up",
-    "product": "Product",
-    "docs": "Docs",
-    "blog": "Blog",
-    "community": "Community",
-    "company": "Company"
+    "features": "Features",
+    "pricing": "Pricing",
+    "faq": "FAQ"
   },
   "Hero": {
-    "follow_twitter": "Follow @Ixartz on Twitter",
-    "title": "The perfect <important>SaaS template</important> to build and scale your business with ease.",
-    "description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
-    "primary_button": "Get Started",
-    "secondary_button": "Star on GitHub"
-  },
-  "Sponsors": {
-    "title": "Sponsored by"
+    "title": "From <important>Script to Short</important>, to YouTube to Shorts, All in One Place.",
+    "description": "VidStack is the all-in-one AI video automation platform. One tool, every video need — script to video, long video to shorts, AI avatars, auto-publish, and scheduling.",
+    "primary_button": "Start Creating",
+    "secondary_button": "See Features"
   },
   "Features": {
     "section_subtitle": "Features",
-    "section_title": "Unlock the Full Potential of the SaaS Template",
-    "section_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
-    "feature1_title": "Node.js",
-    "feature2_title": "React",
-    "feature3_title": "Tailwind CSS",
-    "feature4_title": "TypeScript",
-    "feature5_title": "Shadcn UI",
-    "feature6_title": "ESLint",
-    "feature_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS."
+    "section_title": "One Tool, Every Video Need",
+    "section_description": "Everything you need to automate your video workflow, from first draft to published short.",
+    "feature1_title": "Long Video → Shorts",
+    "feature1_description": "Drop in a YouTube URL or upload a video. AI extracts the best hooks and auto-clips viral moments.",
+    "feature2_title": "Script → Video",
+    "feature2_description": "Type an idea, get a finished video. Hook, body, and CTA written by AI, rendered automatically.",
+    "feature3_title": "Face Tracking Crop",
+    "feature3_description": "Smart 16:9 to 9:16 reframing that keeps the speaker perfectly centered, frame by frame.",
+    "feature4_title": "AI Avatars & Voiceover",
+    "feature4_description": "Generate AI presenters and natural voiceovers in any language — no camera, no mic needed.",
+    "feature5_title": "B-Roll & Subtitles",
+    "feature5_description": "Automatic B-roll matched to your script, plus word-level animated subtitles that boost retention.",
+    "feature6_title": "Auto-Publish & Schedule",
+    "feature6_description": "One click publishes to TikTok, YouTube Shorts, and Instagram — or schedule posts for peak times."
   },
   "Pricing": {
-    "section_subtitle": "Features",
-    "section_title": "Unlock the Full Potential of the SaaS Template",
-    "section_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
+    "section_subtitle": "Pricing",
+    "section_title": "Simple Plans for Every Creator",
+    "section_description": "Start free, scale as you grow. No watermark, cancel anytime.",
     "button_text": "Get Started"
   },
   "PricingPlan": {
-    "free_plan_name": "Free",
-    "premium_plan_name": "Premium",
-    "enterprise_plan_name": "Enterprise",
-    "free_plan_description": "For individuals",
-    "premium_plan_description": "For small teams",
-    "enterprise_plan_description": "For industry leaders",
-    "feature_team_member": "{number} Team Members",
-    "feature_website": "{number} Websites",
-    "feature_storage": "{number} GB Storage",
-    "feature_transfer": "{number} TB Transfer",
+    "starter_plan_name": "Starter",
+    "pro_plan_name": "Pro",
+    "creator_plan_name": "Creator",
+    "starter_plan_description": "For solo creators",
+    "pro_plan_description": "For serious creators",
+    "creator_plan_description": "For power creators",
+    "feature_team_member": "{number} Team Member",
+    "feature_website": "{number} Clips per Month",
+    "feature_storage": "{number} Publishing Platforms",
+    "feature_transfer": "{number} Output Formats",
     "feature_email_support": "Email Support",
     "plan_interval_month": "month",
     "plan_interval_year": "year",
     "next_renew_date": "Your subscription renews on {date}"
   },
   "FAQ": {
-    "question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
-    "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquam enim dui, id consequat turpis ullamcorper ac. Mauris id quam dolor. Nullam eu egestas turpis. Proin risus elit, sollicitudin in mi a, accumsan euismod turpis. In euismod mi sed diam tristique hendrerit."
+    "question1": "How does VidStack turn a long video into shorts?",
+    "answer1": "Paste a YouTube URL or upload a video. VidStack transcribes it with Whisper, finds the strongest hooks with AI, then auto-clips and reframes the best moments into 9:16 vertical shorts with face tracking.",
+    "question2": "Can I create a video from just a script or idea?",
+    "answer2": "Yes. Type your idea and VidStack's 4-step AI pipeline writes the hook, body, and CTA, generates a voiceover, finds matching B-roll, and renders a ready-to-post video.",
+    "question3": "Which platforms can I publish to?",
+    "answer3": "TikTok, YouTube Shorts, YouTube long-form, and Instagram Reels. You can publish instantly or schedule posts ahead of time.",
+    "question4": "What AI models does VidStack support?",
+    "answer4": "Gemini, GPT-4o, Claude, and DeepSeek. Switch between them per job depending on cost and quality needs.",
+    "question5": "What video formats can I export?",
+    "answer5": "9:16 vertical for Shorts and Reels, 16:9 horizontal for YouTube, and 4:5 square for feeds — all from the same project.",
+    "question6": "Is there a watermark on the free tier?",
+    "answer6": "No. VidStack never adds a watermark on any plan, including the free 30 clips per month tier."
   },
   "CTA": {
-    "title": "You are ready?",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "button_text": "Star on GitHub"
+    "title": "Ready to automate your video workflow?",
+    "description": "From script to short, to YouTube to Shorts — all in one place.",
+    "button_text": "Get Started Free"
   },
   "Footer": {
-    "product": "Product",
-    "docs": "Docs",
-    "blog": "Blog",
-    "community": "Community",
-    "company": "Company",
-    "terms_of_service": "Terms Of Service",
-    "privacy_policy": "Privacy Policy",
-    "designed_by": "Designed by <author></author>"
-  },
-  "ProtectFallback": {
-    "not_enough_permission": "You do not have the permissions to perform this action"
-  },
-  "SignIn": {
-    "meta_title": "Sign in",
-    "meta_description": "Seamlessly sign in to your account with our user-friendly login process."
-  },
-  "SignUp": {
-    "meta_title": "Sign up",
-    "meta_description": "Effortlessly create an account through our intuitive sign-up process."
-  },
-  "DashboardLayout": {
-    "home": "Home",
-    "todos": "Todos",
-    "members": "Members",
-    "billing": "Billing",
-    "settings": "Settings"
-  },
-  "Dashboard": {
-    "meta_title": "SaaS Template Dashboard",
-    "meta_description": "A free and open-source landing page template for your SaaS business, built with Next.js, TypeScript, Shadcn UI, and Tailwind CSS."
-  },
-  "DashboardIndex": {
-    "title_bar": "Dashboard",
-    "title_bar_description": "Welcome to your dashboard",
-    "message_state_title": "Let's get started",
-    "message_state_description": "You can customize this page by editing the file at <code>dashboard/page.tsx</code>",
-    "message_state_button": "Need Stripe Integration? Check out Next.js Boilerplate Pro"
-  },
-  "UserProfile": {
-    "title_bar": "User Profile",
-    "title_bar_description": "View and manage your user profile"
-  },
-  "OrganizationProfile": {
-    "title_bar": "Organization Management",
-    "title_bar_description": "Manage your organization"
-  },
-  "Billing": {
-    "title_bar": "Billing",
-    "title_bar_description": "Manage your billing and subscription",
-    "current_section_title": "Current Plan",
-    "current_section_description": "Adjust your payment plan to best suit your requirements",
-    "manage_subscription_button": "Manage Subscription"
-  },
-  "BillingOptions": {
-    "current_plan": "Current Plan",
-    "upgrade_plan": "Get Started"
-  },
-  "CheckoutConfirmation": {
-    "title_bar": "Payment Confirmation",
-    "message_state_title": "Payment successful",
-    "message_state_description": "Your payment has been successfully processed. Thank you for your purchase!",
-    "message_state_button": "Go back to Billing"
-  },
-  "DataTable": {
-    "no_results": "No results."
-  },
-  "Todos": {
-    "title_bar": "Todo List",
-    "title_bar_description": "View and manage your todo list",
-    "add_todo_button": "New todo"
-  },
-  "TodoTableColumns": {
-    "open_menu": "Open menu",
-    "edit": "Edit",
-    "delete": "Delete",
-    "title_header": "Title",
-    "message_header": "Message"
-  },
-  "AddTodo": {
-    "title_bar": "Add Todo",
-    "add_todo_section_title": "Create a new todo",
-    "add_todo_section_description": "Fill in the form below to create a new todo"
-  },
-  "EditTodo": {
-    "title_bar": "Edit todo",
-    "edit_todo_section_title": "Modify todo",
-    "edit_todo_section_description": "Fill in the form below to edit the todo"
-  },
-  "TodoForm": {
-    "title_label": "Title",
-    "title_description": "Enter a descriptive title for your todo.",
-    "message_title": "Message",
-    "message_description": "Enter a detailed message for your todo.",
-    "submit_button": "Submit"
+    "features": "Features",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "footer_text": "© {year} {name}. All rights reserved."
   }
 }

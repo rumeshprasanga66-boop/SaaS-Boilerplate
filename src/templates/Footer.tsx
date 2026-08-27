@@ -1,112 +1,90 @@
-import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+const LINK_GROUPS = [
+  {
+    title: 'Product',
+    links: ['Features', 'Pricing', 'Demo', 'Changelog'],
+  },
+  {
+    title: 'Resources',
+    links: ['Blog', 'Docs', 'API Reference', 'Status'],
+  },
+  {
+    title: 'Company',
+    links: ['About', 'Contact', 'Privacy', 'Terms'],
+  },
+] as const;
 
-import { CenteredFooter } from '@/features/landing/CenteredFooter';
-import { Section } from '@/features/landing/Section';
-import { AppConfig } from '@/utils/AppConfig';
+const SOCIALS = [
+  {
+    name: 'Twitter',
+    icon: <path d="M18.9 2H22l-6.8 7.8L23.3 22h-6.3l-4.9-6.4L6.5 22H3.4l7.3-8.3L2 2h6.5l4.4 5.9L18.9 2zm-1.1 18h1.7L7.4 3.8H5.6L17.8 20z" />,
+  },
+  {
+    name: 'LinkedIn',
+    icon: <path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.2V9h3.4v1.6h.1c.5-.9 1.7-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.3zM5.2 7.4a2.1 2.1 0 110-4.2 2.1 2.1 0 010 4.2zM7 20.5H3.4V9H7v11.5z" />,
+  },
+  {
+    name: 'YouTube',
+    icon: <path d="M23 7.2s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.3-1C16.6 3.5 12 3.5 12 3.5s-4.6 0-7.8.4c-.4.1-1.4.1-2.3 1-.7.7-.9 2.3-.9 2.3S.8 9.1.8 11v1.8c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 7.6.4 7.6.4s4.6 0 7.8-.4c.4-.1 1.4-.1 2.3-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8V11c0-1.9-.2-3.8-.2-3.8zM9.7 15V8.4l6.2 3.3L9.7 15z" />,
+  },
+  {
+    name: 'Discord',
+    icon: <path d="M20.3 4.4A19.8 19.8 0 0015.4 3c-.2.4-.5.9-.6 1.3a18.3 18.3 0 00-5.5 0C9.1 3.9 8.8 3.4 8.6 3a19.7 19.7 0 00-4.9 1.5A20.3 20.3 0 00.1 18.1a19.9 19.9 0 006 3c.5-.7.9-1.4 1.3-2.1-.7-.3-1.4-.6-2-1l.5-.4a14.2 14.2 0 0012.2 0l.5.4c-.6.4-1.3.7-2 1 .4.7.8 1.4 1.3 2.1a19.8 19.8 0 006-3A20.2 20.2 0 0020.3 4.4zM8 15.3c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.5 8 10.5s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4z" />,
+  },
+] as const;
 
-import { Logo } from './Logo';
-
-const Footer = () => {
-  const t = useTranslations('Footer');
-
-  return (
-    <Section className="pb-16 pt-0">
-      <CenteredFooter
-        logo={<Logo />}
-        name={AppConfig.name}
-        iconList={
-          <>
-            <li>
-              <Link href="/">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+export const Footer = () => (
+  <footer className="landing-surface landing-border border-t">
+    <div className="mx-auto max-w-6xl px-6 py-16">
+      <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div>
+          <div className="landing-strong flex items-center gap-2 text-xl font-bold">
+            <svg className="size-7 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="12" width="6" height="8" rx="1" />
+              <rect x="9" y="8" width="6" height="12" rx="1" />
+              <rect x="15" y="4" width="6" height="16" rx="1" />
+            </svg>
+            VidStack
+          </div>
+          <p className="landing-faint mt-3 max-w-xs text-sm">
+            From script to short, to YouTube to Shorts — all in one place.
+          </p>
+          <div className="mt-5 flex gap-3">
+            {SOCIALS.map(social => (
+              <a
+                key={social.name}
+                href="#top"
+                aria-label={social.name}
+                className="landing-border landing-muted hover:landing-strong flex size-9 items-center justify-center rounded-lg border transition-all hover:border-indigo-400/50"
+              >
+                <svg viewBox="0 0 24 24" className="size-4" fill="currentColor">
+                  {social.icon}
                 </svg>
-              </Link>
-            </li>
+              </a>
+            ))}
+          </div>
+        </div>
 
-            <li>
-              <Link href="/">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23.998 12c0-6.628-5.372-12-11.999-12C5.372 0 0 5.372 0 12c0 5.988 4.388 10.952 10.124 11.852v-8.384H7.078v-3.469h3.046V9.356c0-3.008 1.792-4.669 4.532-4.669 1.313 0 2.686.234 2.686.234v2.953H15.83c-1.49 0-1.955.925-1.955 1.874V12h3.328l-.532 3.469h-2.796v8.384c5.736-.9 10.124-5.864 10.124-11.853z" />
-                </svg>
-              </Link>
-            </li>
+        {LINK_GROUPS.map(group => (
+          <div key={group.title}>
+            <div className="landing-strong text-sm font-bold uppercase tracking-wider">{group.title}</div>
+            <ul className="mt-4 space-y-2.5">
+              {group.links.map(link => (
+                <li key={link}>
+                  <a href="#top" className="landing-faint hover:landing-strong text-sm transition-colors">
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
 
-            <li>
-              <Link href="/">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23.954 4.569a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.691 8.094 4.066 6.13 1.64 3.161a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.061a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.937 4.937 0 004.604 3.417 9.868 9.868 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63a9.936 9.936 0 002.46-2.548l-.047-.02z" />
-                </svg>
-              </Link>
-            </li>
-
-            <li>
-              <Link href="/">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" />
-                </svg>
-              </Link>
-            </li>
-
-            <li>
-              <Link href="/">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                </svg>
-              </Link>
-            </li>
-
-            <li>
-              <Link href="/">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M11.585 5.267c1.834 0 3.558.811 4.824 2.08v.004c0-.609.41-1.068.979-1.068h.145c.891 0 1.073.842 1.073 1.109l.005 9.475c-.063.621.64.941 1.029.543 1.521-1.564 3.342-8.038-.946-11.79-3.996-3.497-9.357-2.921-12.209-.955-3.031 2.091-4.971 6.718-3.086 11.064 2.054 4.74 7.931 6.152 11.424 4.744 1.769-.715 2.586 1.676.749 2.457-2.776 1.184-10.502 1.064-14.11-5.188C-.977 13.521-.847 6.093 5.62 2.245 10.567-.698 17.09.117 21.022 4.224c4.111 4.294 3.872 12.334-.139 15.461-1.816 1.42-4.516.037-4.498-2.031l-.019-.678c-1.265 1.256-2.948 1.988-4.782 1.988-3.625 0-6.813-3.189-6.813-6.812 0-3.659 3.189-6.885 6.814-6.885zm4.561 6.623c-.137-2.653-2.106-4.249-4.484-4.249h-.09c-2.745 0-4.268 2.159-4.268 4.61 0 2.747 1.842 4.481 4.256 4.481 2.693 0 4.464-1.973 4.592-4.306l-.006-.536z" />
-                </svg>
-              </Link>
-            </li>
-
-            <li>
-              <Link href="/">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415a3.3 3.3 0 013.293 3.295A3.303 3.303 0 013.283 24C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z" />
-                </svg>
-              </Link>
-            </li>
-          </>
-        }
-        legalLinks={
-          <>
-            <li>
-              <Link href="/sign-up">{t('terms_of_service')}</Link>
-            </li>
-            <li>
-              <Link href="/sign-up">{t('privacy_policy')}</Link>
-            </li>
-          </>
-        }
-      >
-        <li>
-          <Link href="/sign-up">{t('product')}</Link>
-        </li>
-
-        <li>
-          <Link href="/sign-up">{t('docs')}</Link>
-        </li>
-
-        <li>
-          <Link href="/sign-up">{t('blog')}</Link>
-        </li>
-
-        <li>
-          <Link href="/sign-up">{t('community')}</Link>
-        </li>
-
-        <li>
-          <Link href="/sign-up">{t('company')}</Link>
-        </li>
-      </CenteredFooter>
-    </Section>
-  );
-};
-
-export { Footer };
+      <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
+        <p className="landing-faint text-xs">
+          © 2026 VidStack. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+);

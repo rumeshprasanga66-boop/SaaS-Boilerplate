@@ -4,69 +4,68 @@ import { BILLING_INTERVAL, type PricingPlan } from '@/types/Subscription';
 
 const localePrefix: LocalePrefix = 'as-needed';
 
-// FIXME: Update this configuration file based on your project information
+// VidStack — All-in-One AI Video Automation Platform
 export const AppConfig = {
-  name: 'SaaS Template',
+  name: 'VidStack',
   locales: [
     {
       id: 'en',
       name: 'English',
     },
-    { id: 'fr', name: 'Français' },
   ],
   defaultLocale: 'en',
   localePrefix,
 };
 
-export const AllLocales = AppConfig.locales.map((locale) => locale.id);
+export const AllLocales = AppConfig.locales.map(locale => locale.id);
 
 export const PLAN_ID = {
-  FREE: 'free',
-  PREMIUM: 'premium',
-  ENTERPRISE: 'enterprise',
+  STARTER: 'starter',
+  PRO: 'pro',
+  CREATOR: 'creator',
 } as const;
 
-export const PricingPlanList: Array<PricingPlan> = [
-  {
-    id: PLAN_ID.FREE,
-    price: 0,
+export const PricingPlanList: Record<string, PricingPlan> = {
+  [PLAN_ID.STARTER]: {
+    id: PLAN_ID.STARTER,
+    price: 9,
     interval: BILLING_INTERVAL.MONTH,
     testPriceId: '',
     devPriceId: '',
     prodPriceId: '',
     features: {
-      teamMember: 2,
-      website: 2,
-      storage: 2,
-      transfer: 2,
+      teamMember: 1,
+      website: 20,
+      storage: 1,
+      transfer: 1,
     },
   },
-  {
-    id: PLAN_ID.PREMIUM,
-    price: 79,
+  [PLAN_ID.PRO]: {
+    id: PLAN_ID.PRO,
+    price: 49,
     interval: BILLING_INTERVAL.MONTH,
     testPriceId: '',
     devPriceId: '',
     prodPriceId: '',
     features: {
-      teamMember: 5,
-      website: 5,
-      storage: 5,
-      transfer: 5,
+      teamMember: 1,
+      website: 50,
+      storage: 3,
+      transfer: 3,
     },
   },
-  {
-    id: PLAN_ID.ENTERPRISE,
-    price: 199,
+  [PLAN_ID.CREATOR]: {
+    id: PLAN_ID.CREATOR,
+    price: 99,
     interval: BILLING_INTERVAL.MONTH,
     testPriceId: '',
     devPriceId: '',
     prodPriceId: '',
     features: {
-      teamMember: 100,
+      teamMember: 1,
       website: 100,
-      storage: 100,
-      transfer: 100,
+      storage: 4,
+      transfer: 4,
     },
   },
-];
+};

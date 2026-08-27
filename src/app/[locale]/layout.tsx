@@ -1,11 +1,14 @@
 import '@/styles/global.css';
 
 import type { Metadata } from 'next';
+import { Roboto, Roboto_Mono } from 'next/font/google';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
 
-import { DemoBadge } from '@/components/DemoBadge';
 import { AllLocales } from '@/utils/AppConfig';
+
+const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700', '900'], variable: '--font-roboto' });
+const robotoMono = Roboto_Mono({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--font-roboto-mono' });
 
 export const metadata: Metadata = {
   icons: [
@@ -33,7 +36,7 @@ export const metadata: Metadata = {
 };
 
 export function generateStaticParams() {
-  return AllLocales.map((locale) => ({ locale }));
+  return AllLocales.map(locale => ({ locale }));
 }
 
 export default function RootLayout(props: {
@@ -45,16 +48,20 @@ export default function RootLayout(props: {
   // Using internationalization in Client Components
   const messages = useMessages();
 
+  // The `suppressHydrationWarning` in <html> is used to prevent hydration errors caused by `next-themes`.
+  // Solution provided by the package itself: https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
+
+  // The `suppressHydrationWarning` attribute in <body> is used to prevent hydration errors caused by Sentry Overlay,
+  // which dynamically adds a `style` attribute to the body tag.
   return (
-    <html lang={props.params.locale}>
-      <body className="bg-background text-foreground antialiased">
+    <html lang={props.params.locale} suppressHydrationWarning>
+      <body className={`bg-background text-foreground antialiased ${roboto.variable} ${robotoMono.variable} font-sans`} suppressHydrationWarning>
+        {/* PRO: Dark mode support for Shadcn UI */}
         <NextIntlClientProvider
           locale={props.params.locale}
           messages={messages}
         >
           {props.children}
-
-          <DemoBadge />
         </NextIntlClientProvider>
       </body>
     </html>

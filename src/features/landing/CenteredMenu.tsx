@@ -6,7 +6,7 @@ import { ToggleMenuButton } from '@/components/ToggleMenuButton';
 import { useMenu } from '@/hooks/UseMenu';
 import { cn } from '@/utils/Helpers';
 
-const CenteredMenu = (props: {
+export const CenteredMenu = (props: {
   logo: React.ReactNode;
   children: React.ReactNode;
   rightMenu: React.ReactNode;
@@ -37,12 +37,10 @@ const CenteredMenu = (props: {
           navClass,
         )}
       >
-        <ul className="flex flex-row items-center gap-x-4 text-lg font-medium [&_li:not(:last-child):hover]:opacity-100 [&_li:not(:last-child)]:opacity-60">
+        <ul className="flex flex-row items-center gap-x-1.5 text-lg font-medium [&_li[data-fade]:hover]:opacity-100 [&_li[data-fade]]:opacity-60">
           {props.rightMenu}
         </ul>
       </div>
     </div>
   );
 };
-
-export { CenteredMenu };

@@ -2,19 +2,16 @@ import { type ForwardedRef, forwardRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-/* eslint-disable jsx-a11y/control-has-associated-label */
-type IToggleMenuButtonProps = {
-  onClick?: () => void;
-};
-
 /**
  * A toggle button to show/hide component in small screen.
  * @component
  * @params props - Component props.
- * @param props.onClick - Function to run when the button is clicked.
+ * @params props.onClick - Function to run when the button is clicked.
  */
 const ToggleMenuButtonInternal = (
-  props: IToggleMenuButtonProps,
+  props: {
+    onClick?: () => void;
+  },
   ref?: ForwardedRef<HTMLButtonElement>,
 ) => (
   <Button

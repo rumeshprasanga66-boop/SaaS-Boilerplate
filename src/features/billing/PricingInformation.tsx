@@ -2,17 +2,16 @@ import { useTranslations } from 'next-intl';
 
 import { PricingCard } from '@/features/billing/PricingCard';
 import { PricingFeature } from '@/features/billing/PricingFeature';
-import type { PlanId } from '@/types/Subscription';
 import { PricingPlanList } from '@/utils/AppConfig';
 
-const PricingInformation = (props: {
-  buttonList: Record<PlanId, React.ReactNode>;
+export const PricingInformation = (props: {
+  buttonList: Record<string, React.ReactNode>;
 }) => {
   const t = useTranslations('PricingPlan');
 
   return (
     <div className="grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-3">
-      {PricingPlanList.map((plan) => (
+      {Object.values(PricingPlanList).map(plan => (
         <PricingCard
           key={plan.id}
           planId={plan.id}
@@ -50,5 +49,3 @@ const PricingInformation = (props: {
     </div>
   );
 };
-
-export { PricingInformation };

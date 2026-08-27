@@ -49,3 +49,13 @@ local
 
 # vercel
 .vercel
+.env
+
+# Python backend build artifacts
+backend/.venv/
+__pycache__/
+*.pyc
+backend/.env
+backend/cookies.txt
+cookies.txt
+backend/data/
